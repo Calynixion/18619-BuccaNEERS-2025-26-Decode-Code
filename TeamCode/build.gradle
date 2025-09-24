@@ -7,15 +7,9 @@
 // the build definitions, you can place those customizations in this file, but
 // please think carefully as to whether such customizations are really necessary
 // before doing so.
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 // {test} also test colton im gonna vaporize you
-=======
 // {test} also test colton likes kids
->>>>>>> Stashed changes
-=======
 // {test} also test colton likes kids
->>>>>>> Stashed changes
 // This is updated
 println("iajslkdsad");
 // Custom definitions may go here
