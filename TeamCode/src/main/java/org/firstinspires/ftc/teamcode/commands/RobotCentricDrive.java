@@ -15,7 +15,6 @@ public class RobotCentricDrive extends CommandBase {
 
     //constructor for the command, sets the given variables to local variables
     public RobotCentricDrive(Drive drivetrain, DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn) {
-
         this.drivetrain = drivetrain;
         this.strafe = strafe;
         this.forward = forward;
