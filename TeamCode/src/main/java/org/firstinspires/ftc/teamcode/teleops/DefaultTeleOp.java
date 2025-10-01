@@ -4,10 +4,11 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import org.firstinspires.ftc.teamcode.commands.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 //OpMode is actual code that is initialized and ran, calls commands which call methods of subsystems
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="DefaultTeleOp")
-public class TeleOp extends CommandOpMode {
+@TeleOp(name="DefaultTeleOp")
+public class DefaultTeleOp extends CommandOpMode {
     //initialize variables
     Drive drivetrain;
     RobotCentricDrive r_drive;
