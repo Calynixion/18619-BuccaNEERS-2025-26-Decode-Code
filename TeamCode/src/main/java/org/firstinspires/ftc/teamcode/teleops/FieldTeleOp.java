@@ -23,6 +23,8 @@ public class FieldTeleOp extends CommandOpMode {
         controller1 = new GamepadEx(gamepad1);
         drivetrain = new Drive(hardwareMap, telemetry);
         f_drive = new FieldCentricDrive(drivetrain,controller1::getLeftX,controller1::getLeftY,controller1::getRightX);
+        //register the subsystems to the command scheduler
+        register(drivetrain);
 
         //sets the drivetrain subsystem to run the robot centric command continuously
         drivetrain.setDefaultCommand(f_drive);

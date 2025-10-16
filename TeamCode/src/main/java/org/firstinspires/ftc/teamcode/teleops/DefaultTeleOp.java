@@ -29,14 +29,18 @@ public class DefaultTeleOp extends CommandOpMode {
         r_drive = new RobotCentricDrive(drivetrain,controller1::getLeftX,controller1::getLeftY,controller1::getRightX);
         intake = new Intake(hardwareMap, telemetry);
 
+        //register the subsystems to the command scheduler
+        register(drivetrain,intake);
+
         //sets the drivetrain subsystem to run the robot centric command continuously
         drivetrain.setDefaultCommand(r_drive);
 
+        //example of instant commands to call directly from subsystems without a custom command
         controller1.getGamepadButton(GamepadKeys.Button.A)
                 .whileHeld(new InstantCommand(intake::spin))
                 .whenReleased(new InstantCommand(intake::stop));
 
-        register(drivetrain,intake);
+
     }
 
 

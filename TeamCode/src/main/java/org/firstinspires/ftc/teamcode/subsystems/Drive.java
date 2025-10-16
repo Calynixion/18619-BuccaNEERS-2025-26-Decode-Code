@@ -24,7 +24,7 @@ public class Drive extends SubsystemBase {
 
     //constructor method creates an object of this class
     public Drive(HardwareMap hwMap, Telemetry telemetry){
-        //get gyro
+        //get gyro and initialize the imu object, setting default position
         imu = hwMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.FORWARD, RevHubOrientationOnRobot.UsbFacingDirection.LEFT)));
 
