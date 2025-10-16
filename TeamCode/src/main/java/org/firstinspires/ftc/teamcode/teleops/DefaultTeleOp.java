@@ -42,7 +42,7 @@ public class DefaultTeleOp extends CommandOpMode {
         drivetrain.setDefaultCommand(r_drive);
 
         //example of instant commands to call directly from subsystems without a custom command
-        controller1.getGamepadButton(GamepadKeys.Button.A)
+        controller1.getGamepadButton(GamepadKeys.Button.A);
         /*
         controller1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileHeld(new InstantCommand(intake::spin))
