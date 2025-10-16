@@ -18,11 +18,10 @@ public class Intake extends SubsystemBase {
         this.IntakeS = new CRServo(hwMap,"IntakeS");
         this.telemetry = telemetry;
 
-        IntakeS.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        //IntakeS.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void spin(){
-        IntakeS.set(power);
+    public void spin(){IntakeS.set(power);
     }
     public void stop(){
         IntakeS.set(0);
