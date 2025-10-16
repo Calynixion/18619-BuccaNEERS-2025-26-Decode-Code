@@ -9,7 +9,11 @@ import org.firstinspires.ftc.teamcode.subsystems.Drive;
 public class RedAuto extends LinearOpMode {
     Drive drivetrain;
     @Override
-    public void runOpMode() throws InterruptedException {
-
+    public void runOpMode(){
+        drivetrain = new Drive(hardwareMap,telemetry);
+        waitForStart();
+        while (opModeIsActive()) {
+            drivetrain.robotCentricDrive(0, -1, 0);
+        }
     }
 }
