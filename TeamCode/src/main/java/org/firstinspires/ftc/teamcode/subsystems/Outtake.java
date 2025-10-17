@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+/*
 public class Outtake extends SubsystemBase {
     Motor OuttakeM;
     Telemetry telemetry;
@@ -14,9 +14,10 @@ public class Outtake extends SubsystemBase {
         this.OuttakeM = new Motor(hwMap, "OuttakeM");
         this.telemetry = telemetry;
 
-        //OuttakeM.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        OuttakeM.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
     public void spin(){OuttakeM.set(power);}
     public void stop(){OuttakeM.set(0);}
 }
+*/

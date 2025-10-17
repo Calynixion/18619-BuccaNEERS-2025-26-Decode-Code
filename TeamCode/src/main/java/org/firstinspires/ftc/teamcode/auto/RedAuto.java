@@ -11,6 +11,9 @@ public class RedAuto extends LinearOpMode {
     @Override
     public void runOpMode(){
         drivetrain = new Drive(hardwareMap,telemetry);
+        telemetry.addData("Status","Ready to run auto");
+        telemetry.addData("Version","noSlothLoad");
+        telemetry.update();
         waitForStart();
         while (opModeIsActive()) {
             drivetrain.robotCentricDrive(0, -1, 0);
