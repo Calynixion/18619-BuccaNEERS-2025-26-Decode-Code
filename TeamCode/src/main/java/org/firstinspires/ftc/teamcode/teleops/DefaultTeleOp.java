@@ -8,7 +8,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import org.firstinspires.ftc.teamcode.commands.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.Outtake;
 
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -22,7 +21,6 @@ public class DefaultTeleOp extends CommandOpMode {
     RobotCentricDrive r_drive;
     GamepadEx controller1;
     Intake intake;
-    Outtake outtake;
 
     //initialize function runs when init is pressed on the driver station with this teleop selected
     @Override
@@ -36,24 +34,13 @@ public class DefaultTeleOp extends CommandOpMode {
         //register the subsystems to the command scheduler
         register(drivetrain,intake);
 
-        outtake = new Outtake(hardwareMap, telemetry);
-        register(drivetrain,intake,outtake);
         //sets the drivetrain subsystem to run the robot centric command continuously
         drivetrain.setDefaultCommand(r_drive);
 
         //example of instant commands to call directly from subsystems without a custom command
-        controller1.getGamepadButton(GamepadKeys.Button.A)
-        /*
         controller1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileHeld(new InstantCommand(intake::spin))
                 .whenReleased(new InstantCommand(intake::stop));
-
-
-        controller1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whileHeld(new InstantCommand(outtake::spin))
-                .whenReleased(new InstantCommand(outtake::stop));
-        */
-
 
 
     }
