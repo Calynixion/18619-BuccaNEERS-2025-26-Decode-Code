@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
         IntakeM.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void spin(){IntakeM.set(power);
+    public void spin(){IntakeM.set(-power);
     }
     public void stop(){
         IntakeM.set(0);
