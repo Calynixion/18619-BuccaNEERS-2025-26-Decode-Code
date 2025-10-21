@@ -102,7 +102,7 @@ public class RedAuto extends LinearOpMode {
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
         @Override
         public void onOpened() {
-        webcam.startStreaming(740,480
+        webcam.startStreaming(740,480)
         
 
         }
