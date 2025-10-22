@@ -42,7 +42,7 @@ public class DefaultTeleOp extends CommandOpMode {
         controller1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileHeld(new InstantCommand(intake::spin))
                 .whenReleased(new InstantCommand(intake::stop));
-        
+
     }
 
 
