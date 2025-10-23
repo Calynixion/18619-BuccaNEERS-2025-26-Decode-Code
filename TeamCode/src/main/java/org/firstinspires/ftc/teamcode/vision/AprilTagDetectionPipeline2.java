@@ -49,13 +49,13 @@ public class AprilTagDetectionPipeline2 extends OpenCvPipeline
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
     // You will need to do your own calibration for other configurations!
-    public static double fx = 578.272;
-    public static double fy = 578.272;
-    public static double cx = 402.145;
-    public static double cy = 221.506;
+    public static double fx = 1346.841;
+    public static double fy = 1341.584;
+    public static double cx = 275.423;
+    public static double cy = 398.375;
 
     // UNITS ARE METERS
-    public static double TAG_SIZE = 0.166;
+    public static double TAG_SIZE = 0.164;
 
     // instance variables
 
