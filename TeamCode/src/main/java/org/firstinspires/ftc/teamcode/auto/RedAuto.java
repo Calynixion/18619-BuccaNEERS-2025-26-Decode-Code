@@ -12,7 +12,6 @@ public class RedAuto extends LinearOpMode {
     public void runOpMode(){
         drivetrain = new Drive(hardwareMap,telemetry);
         telemetry.addData("Status","Ready to run auto");
-        telemetry.addData("Version","noSlothLoad");
         telemetry.update();
         waitForStart();
         while (opModeIsActive()) {
