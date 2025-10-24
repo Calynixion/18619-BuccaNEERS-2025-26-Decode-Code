@@ -21,7 +21,6 @@
 
 package org.firstinspires.ftc.teamcode.vision;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.*;
 import org.opencv.calib3d.Calib3d;
@@ -34,7 +33,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 
 
-public class AprilTagDetectionPipeline2 extends OpenCvPipeline
+public class EOCVAprilTagPipeline extends OpenCvPipeline
 {
     // STATIC CONSTANTS
 
@@ -77,7 +76,7 @@ public class AprilTagDetectionPipeline2 extends OpenCvPipeline
 
     Telemetry telemetry;
 
-    public AprilTagDetectionPipeline2(Telemetry telemetry) {
+    public EOCVAprilTagPipeline(Telemetry telemetry) {
         this.telemetry = telemetry;
         constructMatrix();
     }
