@@ -15,7 +15,7 @@ public class Intake extends SubsystemBase {
 
     Motor IntakeM;
     Telemetry telemetry;
-    double power = 1;
+    double power = -1;
     public Intake(HardwareMap hwMap, Telemetry telemetry){
         this.IntakeM = new Motor(hwMap,"IntakeM");
         this.telemetry = telemetry;
@@ -23,8 +23,11 @@ public class Intake extends SubsystemBase {
         IntakeM.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void spin(){IntakeM.set(power);
+    public void spin(){
+        IntakeM.set(power);
     }
+    public void reverseSpin(){
+        IntakeM.set(-power);}
     public void stop(){
         IntakeM.set(0);
     }

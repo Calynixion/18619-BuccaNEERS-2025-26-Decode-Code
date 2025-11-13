@@ -20,7 +20,8 @@ public class Drive extends SubsystemBase {
     Telemetry telemetry;
     IMU imu;
     double multiplier = 1;
-    double direction = 1;
+    public double direction = 1;
+
 
     //constructor method creates an object of this class
     public Drive(HardwareMap hwMap, Telemetry telemetry){
@@ -51,15 +52,20 @@ public class Drive extends SubsystemBase {
 
     //basic drive method
     public void robotCentricDrive(double x, double y, double rx) {
-        drivetrain.driveRobotCentric(x * multiplier * direction, y * multiplier * direction, rx * multiplier * direction);
+        drivetrain.driveRobotCentric(x * multiplier * direction, y * multiplier * direction, rx * multiplier * direction*direction);
     }
     public void fieldCentricDrive(double x, double y, double rx) {
-        drivetrain.driveFieldCentric(x * multiplier * direction, y * multiplier * direction,rx * multiplier * direction, getFieldYaw());
+        drivetrain.driveFieldCentric(x * multiplier * direction, y * multiplier * direction,rx * multiplier * direction*direction, getFieldYaw());
     }
     public void resetIMU(){
         imu.resetYaw();
     }
     public double getFieldYaw() {
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+
+    // change direction
+    public void changeDirection() {
+       direction*=-1;
     }
 }
