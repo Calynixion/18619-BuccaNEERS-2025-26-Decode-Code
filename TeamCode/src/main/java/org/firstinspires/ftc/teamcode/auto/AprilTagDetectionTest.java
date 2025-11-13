@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.vision.AprilTagDetectionPipeline;
-import org.firstinspires.ftc.teamcode.vision.AprilTagDetectionPipeline2;
+import org.firstinspires.ftc.teamcode.vision.EOCVAprilTagPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 @Autonomous
 public class AprilTagDetectionTest extends LinearOpMode {
-    AprilTagDetectionPipeline2 aprilTagDetectionPipeline;
+    EOCVAprilTagPipeline aprilTagDetectionPipeline;
     Drive drivetrain;
     /*
     double fx = 679.2888908044871;
@@ -33,7 +33,7 @@ public class AprilTagDetectionTest extends LinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         OpenCvWebcam camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline2(telemetry);
+        aprilTagDetectionPipeline = new EOCVAprilTagPipeline(telemetry);
         aprilTagDetectionPipeline.setDecimation(3);
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {

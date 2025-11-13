@@ -32,16 +32,6 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous
 public class VisionPortalStreamingOpMode extends LinearOpMode {
-
-    //AprilTagProcessor AprilTag;
-    AprilTagDetectionPipeline aprilTagDetectionPipeline;
-    Drive drivetrain;
-    double fx = 679.2888908044871;
-    double fy = 679.0590608430991;
-    double cx = 399.04720194230583;
-    double cy = 301.4138740002473;
-    double tagsize = 0.173;
-    /*
     public static class CameraStreamProcessor implements VisionProcessor, CameraStreamSource {
         private final AtomicReference<Bitmap> lastFrame =
                 new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
@@ -71,53 +61,22 @@ public class VisionPortalStreamingOpMode extends LinearOpMode {
             continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
         }
     }
-    */
+
     @Override
     public void runOpMode() throws InterruptedException {
-        drivetrain = new Drive(hardwareMap, telemetry);
-        //final CameraStreamProcessor processor = new CameraStreamProcessor();
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        OpenCvWebcam camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        //AprilTag = new AprilTagProcessor.Builder().build();
-        //AprilTag.setDecimation(2);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
-        aprilTagDetectionPipeline.setDecimation(3);
-        camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
-            public void onOpened()
-            {
-                camera.startStreaming(800,600, OpenCvCameraRotation.UPRIGHT);
-            }
-            @Override
-            public void onError(int errorCode) {}
-        });
-        /*
+        final CameraStreamProcessor processor = new CameraStreamProcessor();
+
         new VisionPortal.Builder()
-                .addProcessors(processor,AprilTag)
-                .setCamera((CameraName) camera)
+                .addProcessors(processor)
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .build();
-        */
-        FtcDashboard.getInstance().startCameraStream(camera, 0);
+
+        FtcDashboard.getInstance().startCameraStream(processor, 0);
 
         waitForStart();
 
         while (opModeIsActive()) {
-            //sleep(100L);
-            ArrayList<AprilTagDetection> detectedTags = aprilTagDetectionPipeline.getLatestDetections();
-            if (!detectedTags.isEmpty()) {
-                for (AprilTagDetection detectedTag : detectedTags) {
-                    if (detectedTag.id == 21) {
-                        drivetrain.robotCentricDrive(0, -1, 0);
-                        telemetry.addData("Pipeline", "Tag 21 Found, moving");
-                    } else {
-                        telemetry.addData("Pipeline", "Tag 21 not found");
-                    }
-                }
-            }   else {
-                telemetry.addData("Pipeline","No tags found");
-            }
-            telemetry.update();
+            sleep(100L);
         }
 
     }
