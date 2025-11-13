@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -46,7 +45,7 @@ public class AprilTagDetectionTest extends LinearOpMode {
             public void onError(int errorCode) {}
         });
 
-        FtcDashboard.getInstance().startCameraStream(camera, 0);
+        //FtcDashboard.getInstance().startCameraStream(camera, 0);
 
         waitForStart();
 
