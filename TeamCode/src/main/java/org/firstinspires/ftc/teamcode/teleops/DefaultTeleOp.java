@@ -2,14 +2,19 @@ package org.firstinspires.ftc.teamcode.teleops;
 
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.InstantCommand;
+import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
+import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
+import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import org.firstinspires.ftc.teamcode.commands.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.subsystems.Trigger;
 
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
 //OpMode is actual code that is initialized and ran, calls commands which call methods of subsystems
 @TeleOp(name="DefaultTeleOp")
@@ -20,7 +25,7 @@ public class DefaultTeleOp extends CommandOpMode {
     GamepadEx controller1;
     Intake intake;
     Shooter shooter;
-
+    Trigger trigger;
 
     //initialize function runs when init is pressed on the driver station with this teleop selected
     @Override
@@ -31,10 +36,11 @@ public class DefaultTeleOp extends CommandOpMode {
         r_drive = new RobotCentricDrive(drivetrain,controller1::getLeftX,controller1::getLeftY,controller1::getRightX);
         intake = new Intake(hardwareMap, telemetry);
         shooter = new Shooter(hardwareMap, telemetry);
+        trigger = new Trigger(hardwareMap, telemetry );
 
 
         //register the subsystems to the command scheduler
-        register(drivetrain,intake,shooter);
+        register(drivetrain,intake,shooter,trigger);
 
         //sets the drivetrain subsystem to run the robot centric command continuously
         drivetrain.setDefaultCommand(r_drive);
@@ -44,21 +50,25 @@ public class DefaultTeleOp extends CommandOpMode {
                 .whileHeld(new InstantCommand(intake::spin))
                 .whenReleased(new InstantCommand(intake::stop));
 
-        controller1.getGamepadButton(GamepadKeys.Button.X)
-                .whileHeld(new InstantCommand(shooter::spin))
-                .whenReleased(new InstantCommand(shooter::stop));
-
         controller1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whileHeld(new InstantCommand(intake::reverseSpin))
                 .whenReleased(new InstantCommand(intake::stop));
 
-        controller1.getGamepadButton(GamepadKeys.Button.Y)
-                .whileHeld(new InstantCommand(shooter::reverseSpin))
-                .whenReleased(new InstantCommand(shooter::stop));
-
         controller1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenReleased(new InstantCommand(drivetrain::changeDirection));
 
+        controller1.getGamepadButton(GamepadKeys.Button.A)
+                .whileHeld(new ParallelCommandGroup(
+                    new SequentialCommandGroup(
+                        new InstantCommand(shooter::spin),
+                        new WaitCommand(1000),
+                        new InstantCommand(trigger::shoot)),
+                    new InstantCommand(intake::spin)))
+                .whenReleased(new ParallelCommandGroup(
+                        new InstantCommand(shooter::stop),
+                        new InstantCommand(trigger::stop),
+                        new InstantCommand(intake::stop)
+                ));
     }
 
 

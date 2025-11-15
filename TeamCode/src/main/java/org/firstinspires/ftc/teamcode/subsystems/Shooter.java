@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.hardware.ServoEx;
 import com.seattlesolvers.solverslib.hardware.SimpleServo;
@@ -8,38 +9,31 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoController;
+import com.seattlesolvers.solverslib.hardware.motors.MotorGroup;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Configurable
 public class Shooter extends SubsystemBase {
 
-    Motor ShooterA;
-    Motor ShooterB;
+    MotorEx ShooterA;
+    MotorEx ShooterB;
     Telemetry telemetry;
-    double power = 1;
+    MotorGroup shooter;
+    public static double power = 0.575;
     public Shooter(HardwareMap hwMap, Telemetry telemetry){
-        this.ShooterA = new Motor(hwMap,"ShooterA");
-        this.ShooterB = new Motor(hwMap, "ShooterB");
-
+        this.ShooterA = new MotorEx(hwMap,"ShooterA");
+        this.ShooterB = new MotorEx(hwMap, "ShooterB");
         this.telemetry = telemetry;
-        ShooterA.setRunMode(Motor.RunMode.RawPower);
-        ShooterB.setRunMode(Motor.RunMode.RawPower);
-        ShooterA.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        ShooterB.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        ShooterB.setInverted(true);
+        shooter = new MotorGroup(ShooterA,ShooterB);
+        shooter.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
     public void spin(){
-        ShooterA.set(power);
-        ShooterB.set(-power);
-    }
-    public void reverseSpin(){
-        ShooterA.set(-power*0.25);
-        ShooterB.set(power*0.25);
-
+        shooter.set(power);
     }
     public void stop(){
-        ShooterA.set(0);
-        ShooterB.set(0);
+        shooter.set(0);
     }
 
 
