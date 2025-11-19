@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import static com.sun.tools.doclint.Entity.and;
 
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
