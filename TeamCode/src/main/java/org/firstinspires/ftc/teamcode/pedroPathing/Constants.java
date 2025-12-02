@@ -23,10 +23,10 @@ public class Constants {
             .centripetalScaling(0.005);
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
-            .rightFrontMotorName("fr")
-            .rightRearMotorName("br")
-            .leftRearMotorName("bl")
-            .leftFrontMotorName("fl")
+            .rightFrontMotorName("FrontRightM")
+            .rightRearMotorName("BackRightM")
+            .leftRearMotorName("BackLeftM")
+            .leftFrontMotorName("FrontLeftM")
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
@@ -34,17 +34,17 @@ public class Constants {
             .xVelocity(57.263718)
             .yVelocity(42.68033333);
     public static ThreeWheelConstants localizerConstants = new ThreeWheelConstants()
-            .forwardTicksToInches(.0029524076)
+            .forwardTicksToInches(.00297692)
             .strafeTicksToInches(.0028235417)
             .turnTicksToInches(.0029518386)
             .leftPodY(8.56)
             .rightPodY(-8.25)
             .strafePodX(-5.75)
-            .leftEncoder_HardwareMapName("fl")
-            .rightEncoder_HardwareMapName("br")
-            .strafeEncoder_HardwareMapName("fr")
-            .leftEncoderDirection(Encoder.FORWARD)
-            .rightEncoderDirection(Encoder.REVERSE)
+            .leftEncoder_HardwareMapName("FrontLeftM")
+            .rightEncoder_HardwareMapName("BackRightM")
+            .strafeEncoder_HardwareMapName("FrontRightM")
+            .leftEncoderDirection(Encoder.REVERSE)
+            .rightEncoderDirection(Encoder.FORWARD)
             .strafeEncoderDirection(Encoder.FORWARD);
 
 
