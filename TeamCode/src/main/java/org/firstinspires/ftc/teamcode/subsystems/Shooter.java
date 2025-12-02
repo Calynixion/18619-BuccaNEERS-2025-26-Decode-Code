@@ -29,8 +29,8 @@ public class Shooter extends SubsystemBase {
         shooter.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void spin(){
-        shooter.set(power);
+    public void spin(double power_strength){
+        shooter.set(power*power_strength);
     }
     public void stop(){
         shooter.set(0);

@@ -16,17 +16,13 @@ public class Intake extends SubsystemBase {
 
     MotorEx IntakeM;
 
-    MotorEx IntakeM2;
-
     MotorGroup intakeTransfer;
     Telemetry telemetry;
-    double power = -1;
+    double power = 1;
     public Intake(HardwareMap hwMap, Telemetry telemetry){
         this.telemetry = telemetry;
         this.IntakeM = new MotorEx(hwMap,"IntakeM");
-        this.IntakeM2 = new MotorEx(hwMap, "IntakeM2");
-        IntakeM2.setInverted(true);
-        intakeTransfer = new MotorGroup(IntakeM,IntakeM2);
+        intakeTransfer = new MotorGroup(IntakeM);
         intakeTransfer.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
