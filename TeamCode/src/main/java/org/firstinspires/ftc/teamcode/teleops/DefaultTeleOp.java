@@ -101,6 +101,7 @@ public class DefaultTeleOp extends CommandOpMode {
         RT.whenInactive(
                 new InstantCommand(shooter::stop, shooter)
         );
+
     }
 
 

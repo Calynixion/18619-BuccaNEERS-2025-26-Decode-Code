@@ -19,17 +19,15 @@ public class Blocker extends SubsystemBase{
     Telemetry telemetry;
     public Blocker(HardwareMap hwMap, Telemetry telemetry) {
         servoB = new ServoEx(hwMap, "servoB", 0,180);
-
-
     }
-    public void positionSwitch() {
-        if(servoB.ge()!=naught) positionNaught();
-        if(servoB.()==naught) positionUp();
-    }
+
     public void positionNaught() {
-        servoB.turnToAngle(naught);
+        servoB.set(naught);
     }
     public void positionUp() {
-        servoB.turnToAngle(naught-70);
+        servoB.set(naught-70);
     }
+
+
+
 }
