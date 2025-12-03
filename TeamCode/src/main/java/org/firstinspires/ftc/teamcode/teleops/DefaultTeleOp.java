@@ -32,6 +32,8 @@ public class DefaultTeleOp extends CommandOpMode {
     Blocker blocker;
     Trigger RT;
 
+    public double naught;
+
     //initialize function runs when init is pressed on the driver station with this teleop selected
     @Override
     public void initialize(){
@@ -50,10 +52,11 @@ public class DefaultTeleOp extends CommandOpMode {
         };
 
         //register the subsystems to the command scheduler
-        register(drivetrain,intake,shooter,trigger);
+        register(drivetrain,intake,shooter,trigger,blocker);
 
         //sets the drivetrain subsystem to run the robot centric command continuously
         drivetrain.setDefaultCommand(r_drive);
+
 
         //example of instant commands to call directly from subsystems without a custom command
         controller1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)

@@ -28,6 +28,11 @@ public class Blocker extends SubsystemBase{
         servoB.set(naught-70);
     }
 
+    public double getNaught() {
+        naught = servoB.get();
+        return naught;
+    }
+
 
 
 }
