@@ -75,18 +75,18 @@ public class DefaultTeleOp extends CommandOpMode {
                 .whenReleased(new InstantCommand(drivetrain::changeDirection));
 
         controller1.getGamepadButton(GamepadKeys.Button.B)
-                        .whenReleased(new InstantCommand(blocker::positionNaught));
+                .whenReleased(new InstantCommand(blocker::positionNaught));
         controller1.getGamepadButton(GamepadKeys.Button.A)
                 .whenReleased(new InstantCommand(blocker::positionUp));
 
         controller1.getGamepadButton(GamepadKeys.Button.X)
                 .whileHeld(new InstantCommand(trigger::shoot))
-                .whenReleased(new InstantCommand(trigger::stop));
+                .whenReleased(triggerCmd);
 
 
         controller1.getGamepadButton(GamepadKeys.Button.Y)
                 .whileHeld(new InstantCommand(trigger::reverseShoot))
-                .whenReleased(new InstantCommand(trigger::stop));
+                .whenReleased(triggerCmd);
 
         /* Freaky ahh skill issue useless Button A shooter implementation
         controller1.getGamepadButton(GamepadKeys.Button.A)
