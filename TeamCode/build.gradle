@@ -12,6 +12,7 @@
 // Custom definitions may go here
 
 // Include common definitions from above.
+/*
 buildscript {
     repositories {
         mavenCentral()
@@ -23,9 +24,11 @@ buildscript {
         classpath "dev.frozenmilk:Load:0.2.4"
     }
 }
+
+ */
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
-apply plugin: 'dev.frozenmilk.sinister.sloth.load'
+//apply plugin: 'dev.frozenmilk.sinister.sloth.load'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
@@ -37,14 +40,17 @@ android {
         jniLibs.useLegacyPackaging = true
     }
 }
+
 repositories {
     maven {
         url = "https://repo.dairy.foundation/releases"
     }
 }
+
+
 dependencies {
     implementation project(':FtcRobotController')
     implementation "org.solverslib:core:0.3.3" // core
     implementation "org.solverslib:pedroPathing:0.3.3" // pedroPathing
-    implementation("dev.frozenmilk.sinister:Sloth:0.2.4")
+    //implementation("dev.frozenmilk.sinister:Sloth:0.2.4")
 }

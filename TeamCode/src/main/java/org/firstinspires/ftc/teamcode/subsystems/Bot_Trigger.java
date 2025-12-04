@@ -22,7 +22,7 @@ public class Bot_Trigger extends SubsystemBase {
     public static double power = 0.5;
 
     public Bot_Trigger(HardwareMap hwMap, Telemetry telemetry) {
-        this.bTrigger = new MotorEx(hwMap, "bTrigger");
+        this.bTrigger = new MotorEx(hwMap, "Trigger");
         this.telemetry = telemetry;
         bTrigger.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
@@ -38,6 +38,7 @@ public class Bot_Trigger extends SubsystemBase {
     public void stop() {
         bTrigger.set(0);
     }
+    public void setPower(double power_to_set){bTrigger.set(power_to_set);}
 }
 /*
     CRServo ServoTi;

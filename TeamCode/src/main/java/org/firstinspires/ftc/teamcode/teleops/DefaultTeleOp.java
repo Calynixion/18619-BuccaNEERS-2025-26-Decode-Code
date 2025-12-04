@@ -7,6 +7,7 @@ import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import org.firstinspires.ftc.teamcode.commands.RobotCentricDrive;
+import org.firstinspires.ftc.teamcode.commands.setTrigger;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
@@ -31,6 +32,7 @@ public class DefaultTeleOp extends CommandOpMode {
     Bot_Trigger trigger;
     Blocker blocker;
     Trigger RT;
+    setTrigger triggerCmd;
 
     public double naught;
 
@@ -45,6 +47,7 @@ public class DefaultTeleOp extends CommandOpMode {
         shooter = new Shooter(hardwareMap, telemetry);
         trigger = new Bot_Trigger(hardwareMap, telemetry );
         blocker = new Blocker(hardwareMap, telemetry);
+        triggerCmd = new setTrigger(trigger,0);
         RT = new Trigger() {
             public boolean get() {
                 return gamepad1.right_trigger > 0.4;
@@ -56,6 +59,7 @@ public class DefaultTeleOp extends CommandOpMode {
 
         //sets the drivetrain subsystem to run the robot centric command continuously
         drivetrain.setDefaultCommand(r_drive);
+        trigger.setDefaultCommand(triggerCmd);
 
 
         //example of instant commands to call directly from subsystems without a custom command
@@ -77,7 +81,8 @@ public class DefaultTeleOp extends CommandOpMode {
 
         controller1.getGamepadButton(GamepadKeys.Button.X)
                 .whileHeld(new InstantCommand(trigger::shoot))
-                        .whenReleased(new InstantCommand(trigger::stop));
+                .whenReleased(new InstantCommand(trigger::stop));
+
 
         controller1.getGamepadButton(GamepadKeys.Button.Y)
                 .whileHeld(new InstantCommand(trigger::reverseShoot))
