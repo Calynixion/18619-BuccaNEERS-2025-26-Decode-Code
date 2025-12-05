@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.draw;
-import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
-
 import com.bylazar.field.FieldManager;
 import com.bylazar.field.PanelsField;
 import com.bylazar.field.Style;
@@ -21,7 +18,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.commands.pickup_3;
 import org.firstinspires.ftc.teamcode.commands.shoot_3;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -35,8 +31,8 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "AutoRed", group = "Autos")
-public class DecodeRed extends OpMode {
+@Autonomous(name = "AutoBlue", group = "Autos")
+public class DecodeBlue extends OpMode {
     EOCVAprilTagPipeline aprilTagDetectionPipeline;
 
     private static Follower follower;
@@ -74,7 +70,7 @@ public class DecodeRed extends OpMode {
             public void onError(int errorCode) {}
         });
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose(96,96,Math.toRadians(225)));
+        follower.setStartingPose(new Pose(48,96,Math.toRadians(315)));
         paths = new Paths(follower);
         pathTimer = new Timer();
         opmodeTimer = new Timer();
@@ -116,7 +112,7 @@ public class DecodeRed extends OpMode {
         draw();
     }
     public static void draw() {
-        DrawingInAuto.drawDebug(follower);
+        DrawingInAuto2.drawDebug(follower);
     }
 
     @Override
@@ -138,94 +134,95 @@ public class DecodeRed extends OpMode {
             Path1 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(96.000, 96.000), new Pose(96, 96))
+                            new BezierLine(new Pose(48, 96.000), new Pose(48, 96))
                     )
-                    .setConstantHeadingInterpolation(Math.toRadians(290))
+                    .setConstantHeadingInterpolation(Math.toRadians(230))
                     .build();
             if (tag==21) {
                 Path2 = follower
                         .pathBuilder()
                         .addPath(
-                                new BezierLine(new Pose(96.000, 96.000), new Pose(96.000, 35.500))
+                                new BezierLine(new Pose(48.000, 96.000), new Pose(48.000, 35.500))
                         )
-                        .setLinearHeadingInterpolation(Math.toRadians(290), Math.toRadians(0))
+                        .setLinearHeadingInterpolation(Math.toRadians(230), Math.toRadians(180))
                         .build();
 
                 Path3 = follower
                         .pathBuilder()
                         .addPath(
-                                new BezierLine(new Pose(96.000, 35.500), new Pose(130.000, 35.500))
+                                new BezierLine(new Pose(48.000, 35.500), new Pose(14.000, 35.500))
                         )
-                        .setConstantHeadingInterpolation(Math.toRadians(0))
+                        .setConstantHeadingInterpolation(Math.toRadians(180))
                         .build();
 
                 Path4 = follower
                         .pathBuilder()
                         .addPath(
                                 new BezierCurve(
-                                        new Pose(130.000, 35.500),
-                                        new Pose(92.500, 30.000),
-                                        new Pose(96.000, 96.000)
+                                        new Pose(14.000, 35.500),
+                                        new Pose(51.500, 30.000),
+                                        new Pose(48.000, 96.000)
                                 )
                         )
-                        .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(225))
+                        .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(315))
                         .build();
             } else if (tag==22) {
                 Path2 = follower
                         .pathBuilder()
                         .addPath(
-                                new BezierLine(new Pose(96.000, 96.000), new Pose(96.000, 59.500))
+                                new BezierLine(new Pose(48.000, 96.000), new Pose(48.000, 59.500))
                         )
-                        .setLinearHeadingInterpolation(Math.toRadians(290), Math.toRadians(0))
+                        .setLinearHeadingInterpolation(Math.toRadians(230), Math.toRadians(180))
                         .build();
 
                 Path3 = follower
                         .pathBuilder()
                         .addPath(
-                                new BezierLine(new Pose(96.000, 59.500), new Pose(125.000, 59.500))
+                                new BezierLine(new Pose(48.000, 59.500), new Pose(19.000, 59.500))
                         )
-                        .setConstantHeadingInterpolation(Math.toRadians(0))
+                        .setConstantHeadingInterpolation(Math.toRadians(180))
                         .build();
 
                 Path4 = follower
                         .pathBuilder()
                         .addPath(
                                 new BezierCurve(
-                                        new Pose(125.000, 59.500),
-                                        new Pose(92.500, 60.000),
-                                        new Pose(96.000, 96.000)
+                                        new Pose(19.000, 59.500),
+                                        new Pose(51.500, 59.500),
+                                        new Pose(48.000, 96.000)
                                 )
                         )
-                        .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(225))
+                        .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(315))
                         .build();
             } else if (tag==23) {
                 Path2 = follower
                         .pathBuilder()
                         .addPath(
-                                new BezierLine(new Pose(96.000, 96.000), new Pose(96.000, 83.500))
+                                new BezierLine(new Pose(48.000, 96.000), new Pose(48.000, 83.500))
                         )
-                        .setLinearHeadingInterpolation(Math.toRadians(290), Math.toRadians(0))
+                        .setLinearHeadingInterpolation(Math.toRadians(230), Math.toRadians(180))
                         .build();
 
                 Path3 = follower
                         .pathBuilder()
                         .addPath(
-                                new BezierLine(new Pose(96.000, 83.500), new Pose(125.000, 83.500))
+                                new BezierLine(new Pose(48.000, 83.500), new Pose(19.000, 83.500))
                         )
-                        .setConstantHeadingInterpolation(Math.toRadians(0))
+                        .setConstantHeadingInterpolation(Math.toRadians(180))
                         .build();
 
                 Path4 = follower
                         .pathBuilder()
                         .addPath(
                                 new BezierCurve(
-                                        new Pose(125.000, 83.500),
-                                        new Pose(92.500, 83.500),
-                                        new Pose(96.000, 96.000)
+                                        new Pose(19.000, 83.500),
+                                        new Pose(51.500, 83.500),
+                                        new Pose(48.000, 96.000)
                                 )
                         )
-                        .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(225))
+                        .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(315))
                         .build();
+
             }
         }
     }
@@ -290,7 +287,7 @@ public class DecodeRed extends OpMode {
 
 
 }
-class DrawingInAuto {
+class DrawingInAuto2 {
     public static final double ROBOT_RADIUS = 9; // woah
     private static final FieldManager panelsField = PanelsField.INSTANCE.getField();
 
