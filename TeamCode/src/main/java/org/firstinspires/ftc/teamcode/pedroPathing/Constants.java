@@ -29,7 +29,7 @@ public class Constants {
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3.3,0,0.1,0.0005))
             .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.02,0,0.000005,0.6,0.01))
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0,0.00001,0.6,0.01))
-            .centripetalScaling(0.005);
+            .centripetalScaling(0.02);
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
             .rightFrontMotorName("FrontRightM")
