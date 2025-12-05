@@ -52,6 +52,7 @@ public class DecodeBlue extends OpMode {
     public boolean looking=true;
 
     public static final Pose shootPoseBlue = new Pose(48,96,Math.toRadians(315));
+    public static final Pose cameraPoseBlue = new Pose(48,96);
 
 
     @Override
@@ -136,7 +137,7 @@ public class DecodeBlue extends OpMode {
             Path1 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(shootPoseBlue,shootPoseBlue)
+                            new BezierLine(shootPoseBlue,cameraPoseBlue)
                     )
                     .setConstantHeadingInterpolation(Math.toRadians(230))
                     .build();

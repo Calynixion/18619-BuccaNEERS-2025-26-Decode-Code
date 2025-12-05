@@ -56,7 +56,7 @@ public class DecodeRed extends OpMode {
     public boolean looking=true;
 
     public final static Pose shootPoseRed = new Pose(96,96,Math.toRadians(225));
-
+    public final static Pose cameraPoseRed = new Pose(96,96);
 
     @Override
     public void init() {
@@ -140,7 +140,7 @@ public class DecodeRed extends OpMode {
             Path1 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(shootPoseRed,shootPoseRed)
+                            new BezierLine(shootPoseRed,cameraPoseRed)
                     )
                     .setConstantHeadingInterpolation(Math.toRadians(290))
                     .build();
