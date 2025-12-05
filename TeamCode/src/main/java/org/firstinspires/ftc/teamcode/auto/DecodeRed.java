@@ -55,6 +55,8 @@ public class DecodeRed extends OpMode {
     public static int tag;
     public boolean looking=true;
 
+    public final static Pose shootPoseRed = new Pose(96,96,Math.toRadians(225));
+
 
     @Override
     public void init() {
@@ -74,7 +76,7 @@ public class DecodeRed extends OpMode {
             public void onError(int errorCode) {}
         });
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose(96,96,Math.toRadians(225)));
+        follower.setStartingPose(shootPoseRed);
         paths = new Paths(follower);
         pathTimer = new Timer();
         opmodeTimer = new Timer();
@@ -138,7 +140,7 @@ public class DecodeRed extends OpMode {
             Path1 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(96.000, 96.000), new Pose(96, 96))
+                            new BezierLine(shootPoseRed,shootPoseRed)
                     )
                     .setConstantHeadingInterpolation(Math.toRadians(290))
                     .build();
@@ -221,10 +223,10 @@ public class DecodeRed extends OpMode {
                                 new BezierCurve(
                                         new Pose(125.000, 83.500),
                                         new Pose(92.500, 83.500),
-                                        new Pose(96.000, 96.000)
+                                        shootPoseRed
                                 )
                         )
-                        .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(225))
+                        .setLinearHeadingInterpolation(Math.toRadians(0), shootPoseRed.getHeading())
                         .build();
             }
         }
