@@ -19,7 +19,7 @@ public class Shooter extends SubsystemBase {
     MotorEx ShooterB;
     Telemetry telemetry;
     MotorGroup shooter;
-    public static double power = 0.575;
+    public static double power = 0.6;
     public Shooter(HardwareMap hwMap, Telemetry telemetry){
         this.ShooterA = new MotorEx(hwMap,"ShooterA");
         this.ShooterB = new MotorEx(hwMap, "ShooterB");

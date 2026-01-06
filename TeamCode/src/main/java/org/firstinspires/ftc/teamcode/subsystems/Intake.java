@@ -27,10 +27,10 @@ public class Intake extends SubsystemBase {
     }
 
     public void spin(){
-        intakeTransfer.set(power);
+        intakeTransfer.set(-power);
     }
     public void reverseSpin(){
-        intakeTransfer.set(-power);
+        intakeTransfer.set(power);
     }
     public void stop(){
         intakeTransfer.set(0);

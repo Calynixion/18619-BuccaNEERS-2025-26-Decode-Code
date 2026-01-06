@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.commands.shoot_3;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.Bot_Trigger;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.vision.EOCVAprilTagPipeline;
@@ -42,6 +43,7 @@ public class DecodeBlue extends OpMode {
 
     private Shooter shooter;
     private Intake intake;
+    private Bot_Trigger trigger;
 
     Paths paths;
     private shoot_3 shootCmd;
@@ -52,7 +54,9 @@ public class DecodeBlue extends OpMode {
     public boolean looking=true;
 
     public static final Pose shootPoseBlue = new Pose(48,96,Math.toRadians(315));
-    public static final Pose cameraPoseBlue = new Pose(48,96);
+    public static final Pose cameraPoseBlue = new Pose(48,96,Math.toRadians(230));
+
+    public static final Pose startPoseBlue = new Pose(20.6,122.7,Math.toRadians(321.46));
 
 
     @Override
@@ -73,7 +77,7 @@ public class DecodeBlue extends OpMode {
             public void onError(int errorCode) {}
         });
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(shootPoseBlue);
+        follower.setStartingPose(startPoseBlue);
         paths = new Paths(follower);
         pathTimer = new Timer();
         opmodeTimer = new Timer();
@@ -83,6 +87,7 @@ public class DecodeBlue extends OpMode {
         shootCmd = new shoot_3(shooter,1);
         shoot_timer = new Timer();
         intake = new Intake(hardwareMap, telemetry);
+        trigger = new Bot_Trigger(hardwareMap, telemetry);
 
 
 
@@ -90,6 +95,7 @@ public class DecodeBlue extends OpMode {
 
     @Override
     public void loop() {
+        /*
         ArrayList<AprilTagDetection> detectedTags = aprilTagDetectionPipeline.getLatestDetections();
         if (!detectedTags.isEmpty()) {
             for (AprilTagDetection detectedTag : detectedTags) {
@@ -100,6 +106,11 @@ public class DecodeBlue extends OpMode {
                 }
             }
         }
+
+         */
+        tag=21;
+        looking=false;
+        paths = new Paths(follower);
         telemetry.update();
         follower.update();
         autonomousPathUpdate();
@@ -122,7 +133,7 @@ public class DecodeBlue extends OpMode {
     public void start(){
         opmodeTimer.resetTimer();
         shoot_timer.resetTimer();
-        setPathState(0);
+        setPathState(-1);
     }
 
     public static class Paths{
@@ -131,6 +142,7 @@ public class DecodeBlue extends OpMode {
         public PathChain Path2;
         public PathChain Path3;
         public PathChain Path4;
+        public PathChain Path67;
 
 
         public Paths(Follower follower) {
@@ -139,7 +151,14 @@ public class DecodeBlue extends OpMode {
                     .addPath(
                             new BezierLine(shootPoseBlue,cameraPoseBlue)
                     )
-                    .setConstantHeadingInterpolation(Math.toRadians(230))
+                    .setConstantHeadingInterpolation(cameraPoseBlue.getHeading())
+                    .build();
+            Path67 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(startPoseBlue, shootPoseBlue)
+                    )
+                    .setLinearHeadingInterpolation(startPoseBlue.getHeading(), shootPoseBlue.getHeading())
                     .build();
             if (tag==21) {
                 Path2 = follower
@@ -232,24 +251,48 @@ public class DecodeBlue extends OpMode {
 
     public void autonomousPathUpdate(){
         switch (pathState) {
+            case -1:
+                follower.followPath(paths.Path67);
+                setPathState(-2);
+                break;
+            case -2:
+                if (!follower.isBusy()){
+                    shoot_timer.resetTimer();
+                    setPathState(0);
+                }
+                break;
             case 0:
                 //shooting code here, move on when done
-                if (shoot_timer.getElapsedTime()<=2000) {
+                /*
+                if (shoot_timer.getElapsedTime() <= 2000) {
                     shooter.spin(shoot_power);
-                }else{
+                } else {
                     shooter.spin(0);
-                    follower.followPath(paths.Path1,true);
+                    follower.followPath(paths.Path1, true);
                     setPathState(1);
                     shoot_timer.resetTimer();
                     follower.deactivateAllPIDFs();
                     follower.activateHeading();
                 }
+                 */
+                if (shoot_3(shoot_timer)){
+                    follower.followPath(paths.Path1, true);
+                    setPathState(1);
+                    shoot_timer.resetTimer();
+                    follower.deactivateAllPIDFs();
+                    follower.activateHeading();
+                }
+
                 break;
             case 1:
                 if (shoot_timer.getElapsedTime()>=3000) {
                     follower.activateAllPIDFs();
-                    follower.followPath(paths.Path2);
-                    setPathState(2);
+                    if (!(tag==0)) {
+                        follower.followPath(paths.Path2);
+                        setPathState(2);
+                    } else {
+                        setPathState(-100);
+                    }
                 }
             case 2:
                 if(!follower.isBusy()){
@@ -258,7 +301,7 @@ public class DecodeBlue extends OpMode {
                 }
                 break;
             case 3:
-                intake.reverseSpin();
+                intake.spin();
                 if(!follower.isBusy()){
                     intake.stop();
                     follower.followPath(paths.Path4,true);
@@ -272,12 +315,19 @@ public class DecodeBlue extends OpMode {
                 }
                 break;
             case 5:
+                /*
                 if (shoot_timer.getElapsedTime()<=2000) {
                     shooter.spin(shoot_power);
                 }else{
                     shooter.spin(0);
                     tag=0;
-                    setPathState(-1);
+                    setPathState(-100);
+                }
+
+                 */
+                if (shoot_3(shoot_timer)){
+                    tag=0;
+                    setPathState(-100);
                 }
                 break;
         }
@@ -287,7 +337,22 @@ public class DecodeBlue extends OpMode {
         pathState = pState;
         pathTimer.resetTimer();
     }
-
+    public boolean shoot_3(Timer timer){
+        if (timer.getElapsedTime()<=1000) {
+            shooter.spin(shoot_power);
+            return false;
+        } else if (timer.getElapsedTime()>1000 && timer.getElapsedTime()<=4000) {
+            shooter.spin(shoot_power);
+            intake.spin();
+            trigger.shoot();
+            return false;
+        } else {
+            shooter.spin(0);
+            intake.stop();
+            trigger.stop();
+            return true;
+        }
+    }
 
 }
 class DrawingInAuto2 {

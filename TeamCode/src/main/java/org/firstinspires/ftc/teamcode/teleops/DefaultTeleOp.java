@@ -73,7 +73,7 @@ public class DefaultTeleOp extends CommandOpMode {
 
         controller1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenReleased(new InstantCommand(drivetrain::changeDirection));
-
+        /*
         controller1.getGamepadButton(GamepadKeys.Button.B)
                 .whenReleased(new InstantCommand(blocker::positionNaught));
         controller1.getGamepadButton(GamepadKeys.Button.A)
@@ -82,17 +82,22 @@ public class DefaultTeleOp extends CommandOpMode {
         controller1.getGamepadButton(GamepadKeys.Button.X)
                 .whileHeld(new InstantCommand(trigger::shoot))
                 .whenReleased(triggerCmd);
-
+        */
 
         controller1.getGamepadButton(GamepadKeys.Button.Y)
                 .whileHeld(new InstantCommand(trigger::reverseShoot))
-                .whenReleased(triggerCmd);
+                .whenReleased(new InstantCommand(trigger::stop));
+        controller1.getGamepadButton(GamepadKeys.Button.X)
+                .whileHeld(new InstantCommand(trigger::shoot))
+                .whenReleased(new InstantCommand(trigger::stop));
 
         /* Freaky ahh skill issue useless Button A shooter implementation
+
         controller1.getGamepadButton(GamepadKeys.Button.A)
                 .whileHeld(new ParallelCommandGroup(
                     new SequentialCommandGroup(
                         new InstantCommand(() -> shooter.spin(gamepad1.right_trigger)),
+                        new InstantCommand(trigger::reverseShoot),
                         new WaitCommand(1000),
                         new InstantCommand(trigger::shoot),
                     new InstantCommand(intake::spin))))
@@ -100,10 +105,12 @@ public class DefaultTeleOp extends CommandOpMode {
                         new InstantCommand(shooter::stop),
                         new InstantCommand(trigger::stop),
                         new InstantCommand(intake::stop)
-                ));*/
+                ));
+
+         */
 
         RT.whileActiveContinuous(
-                new InstantCommand(() -> shooter.spin(gamepad1.right_trigger), shooter)
+                new InstantCommand(() -> shooter.spin(1), shooter)
         );
 
         RT.whenInactive(

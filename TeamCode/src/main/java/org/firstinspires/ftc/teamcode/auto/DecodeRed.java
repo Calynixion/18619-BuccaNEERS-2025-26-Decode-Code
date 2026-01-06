@@ -19,6 +19,7 @@ import com.pedropathing.util.PoseHistory;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.seattlesolvers.solverslib.command.InstantCommand;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.commands.pickup_3;
@@ -56,7 +57,11 @@ public class DecodeRed extends OpMode {
     public boolean looking=true;
 
     public final static Pose shootPoseRed = new Pose(96,96,Math.toRadians(225));
-    public final static Pose cameraPoseRed = new Pose(96,96);
+    public final static Pose cameraPoseRed = new Pose(96,96,Math.toRadians(290));
+
+    public final static Pose startPoseRed = new Pose(123.4,122.7,Math.toRadians(220.92));
+
+
 
     @Override
     public void init() {
@@ -76,7 +81,7 @@ public class DecodeRed extends OpMode {
             public void onError(int errorCode) {}
         });
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(shootPoseRed);
+        follower.setStartingPose(startPoseRed);
         paths = new Paths(follower);
         pathTimer = new Timer();
         opmodeTimer = new Timer();
@@ -125,7 +130,7 @@ public class DecodeRed extends OpMode {
     public void start(){
         opmodeTimer.resetTimer();
         shoot_timer.resetTimer();
-        setPathState(0);
+        setPathState(-1);
     }
 
     public static class Paths{
@@ -134,6 +139,8 @@ public class DecodeRed extends OpMode {
         public PathChain Path2;
         public PathChain Path3;
         public PathChain Path4;
+        public PathChain Path67;
+
 
 
         public Paths(Follower follower) {
@@ -143,6 +150,13 @@ public class DecodeRed extends OpMode {
                             new BezierLine(shootPoseRed,cameraPoseRed)
                     )
                     .setConstantHeadingInterpolation(Math.toRadians(290))
+                    .build();
+            Path67 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(startPoseRed,shootPoseRed)
+                    )
+                    .setLinearHeadingInterpolation(startPoseRed.getHeading(),shootPoseRed.getHeading())
                     .build();
             if (tag==21) {
                 Path2 = follower
@@ -234,6 +248,16 @@ public class DecodeRed extends OpMode {
 
     public void autonomousPathUpdate(){
         switch (pathState) {
+            case -1:
+                follower.followPath(paths.Path67);
+                setPathState(-2);
+                break;
+            case -2:
+                if (!follower.isBusy()){
+                    shoot_timer.resetTimer();
+                    setPathState(0);
+                }
+                break;
             case 0:
                 //shooting code here, move on when done
                 if (shoot_timer.getElapsedTime()<=2000) {
@@ -250,8 +274,12 @@ public class DecodeRed extends OpMode {
             case 1:
                 if (shoot_timer.getElapsedTime()>=3000) {
                     follower.activateAllPIDFs();
-                    follower.followPath(paths.Path2);
-                    setPathState(2);
+                    if (!(tag ==0)) {
+                        follower.followPath(paths.Path2);
+                        setPathState(2);
+                    } else {
+                        setPathState(-100);
+                    }
                 }
             case 2:
                 if(!follower.isBusy()){
@@ -260,7 +288,7 @@ public class DecodeRed extends OpMode {
                 }
                 break;
             case 3:
-                intake.reverseSpin();
+                intake.spin();
                 if(!follower.isBusy()){
                     intake.stop();
                     follower.followPath(paths.Path4,true);
@@ -279,7 +307,7 @@ public class DecodeRed extends OpMode {
                 }else{
                     shooter.spin(0);
                     tag=0;
-                    setPathState(-1);
+                    setPathState(-100);
                 }
                 break;
         }

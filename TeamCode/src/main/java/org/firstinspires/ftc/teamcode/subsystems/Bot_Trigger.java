@@ -19,7 +19,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Bot_Trigger extends SubsystemBase {
     MotorEx bTrigger;
     Telemetry telemetry;
-    public static double power = 0.5;
+    public static double power = 1;
 
     public Bot_Trigger(HardwareMap hwMap, Telemetry telemetry) {
         this.bTrigger = new MotorEx(hwMap, "Trigger");
