@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.teleops;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.auto.AprilTagDetectionTest;
 import org.firstinspires.ftc.teamcode.commands.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.commands.setTrigger;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
@@ -13,6 +17,12 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Bot_Trigger;
 import org.firstinspires.ftc.teamcode.subsystems.Blocker;
+import org.firstinspires.ftc.teamcode.vision.EOCVAprilTagPipeline;
+import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 import com.seattlesolvers.solverslib.command.button.Trigger;
 
@@ -20,7 +30,59 @@ import com.seattlesolvers.solverslib.command.button.Trigger;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import java.util.ArrayList;
+
+
 //OpMode is actual code that is initialized and ran, calls commands which call methods of subsystems
+public class AprilTagDetectionTest extends LinearOpMode {
+    EOCVAprilTagPipeline aprilTagDetectionPipeline;
+    Drive drivetrain;
+    /*
+    double fx = 679.2888908044871;
+    double fy = 679.0590608430991;
+    double cx = 399.04720194230583;
+    double cy = 301.4138740002473;
+    double tagsize = 0.173;
+     */
+    @Override
+    public void runOpMode() throws InterruptedException {
+        //drivetrain = new Drive(hardwareMap, telemetry);
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        OpenCvWebcam camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        aprilTagDetectionPipeline = new EOCVAprilTagPipeline(telemetry);
+        aprilTagDetectionPipeline.setDecimation(3);
+        camera.setPipeline(aprilTagDetectionPipeline);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(800,600, OpenCvCameraRotation.UPRIGHT);
+            }
+            @Override
+            public void onError(int errorCode) {}
+        });
+
+        //FtcDashboard.getInstance().startCameraStream(camera, 0);
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            ArrayList<AprilTagDetection> detectedTags = aprilTagDetectionPipeline.getLatestDetections();
+            if (!detectedTags.isEmpty()) {
+                for (AprilTagDetection detectedTag : detectedTags) {
+                    telemetry.addData("Pipeline", "Tag " + detectedTag.id + " found");
+                }
+            }   else {
+                telemetry.addData("Pipeline","No tags found");
+            }
+            telemetry.update();
+        }
+
+    }
+
+
+}
 @TeleOp(name="DefaultTeleOp")
 public class DefaultTeleOp extends CommandOpMode {
     //initialize variables
@@ -33,8 +95,57 @@ public class DefaultTeleOp extends CommandOpMode {
     Blocker blocker;
     Trigger RT;
     setTrigger triggerCmd;
+    int i = 0;
 
-    public double naught;
+    public class AprilTagDetectionTest extends LinearOpMode {
+        EOCVAprilTagPipeline aprilTagDetectionPipeline;
+        Drive drivetrain;
+        /*
+        double fx = 679.2888908044871;
+        double fy = 679.0590608430991;
+        double cx = 399.04720194230583;
+        double cy = 301.4138740002473;
+        double tagsize = 0.173;
+         */
+        @Override
+        public void runOpMode() throws InterruptedException {
+            //drivetrain = new Drive(hardwareMap, telemetry);
+            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            OpenCvWebcam camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+            aprilTagDetectionPipeline = new EOCVAprilTagPipeline(telemetry);
+            aprilTagDetectionPipeline.setDecimation(3);
+            camera.setPipeline(aprilTagDetectionPipeline);
+            camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                @Override
+                public void onOpened()
+                {
+                    camera.startStreaming(800,600, OpenCvCameraRotation.UPRIGHT);
+                }
+                @Override
+                public void onError(int errorCode) {}
+            });
+
+            //FtcDashboard.getInstance().startCameraStream(camera, 0);
+
+            waitForStart();
+
+            while (opModeIsActive()) {
+                ArrayList<AprilTagDetection> detectedTags = aprilTagDetectionPipeline.getLatestDetections();
+                if (!detectedTags.isEmpty()) {
+                    for (AprilTagDetection detectedTag : detectedTags) {
+                        telemetry.addData("Pipeline", "Tag " + detectedTag.id + " found");
+                    }
+                }   else {
+                    telemetry.addData("Pipeline","No tags found");
+                }
+                telemetry.update();
+            }
+
+        }
+
+
+    }
 
     //initialize function runs when init is pressed on the driver station with this teleop selected
     @Override
@@ -62,6 +173,9 @@ public class DefaultTeleOp extends CommandOpMode {
         trigger.setDefaultCommand(triggerCmd);
 
 
+
+        // Setup
+
         //example of instant commands to call directly from subsystems without a custom command
         controller1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileHeld(new InstantCommand(intake::spin))
@@ -73,16 +187,11 @@ public class DefaultTeleOp extends CommandOpMode {
 
         controller1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenReleased(new InstantCommand(drivetrain::changeDirection));
-        /*
+
         controller1.getGamepadButton(GamepadKeys.Button.B)
                 .whenReleased(new InstantCommand(blocker::positionNaught));
         controller1.getGamepadButton(GamepadKeys.Button.A)
                 .whenReleased(new InstantCommand(blocker::positionUp));
-
-        controller1.getGamepadButton(GamepadKeys.Button.X)
-                .whileHeld(new InstantCommand(trigger::shoot))
-                .whenReleased(triggerCmd);
-        */
 
         controller1.getGamepadButton(GamepadKeys.Button.Y)
                 .whileHeld(new InstantCommand(trigger::reverseShoot))
@@ -117,6 +226,18 @@ public class DefaultTeleOp extends CommandOpMode {
                 new InstantCommand(shooter::stop, shooter)
         );
 
+
+
+
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        telemetry.addData("Blocker Pos",blocker.get_angle());
+        telemetry.addLine();
+        telemetry.addData("tag", aprilTagDetections);
+        telemetry.update();
     }
 
 

@@ -12,27 +12,44 @@ import com.seattlesolvers.solverslib.hardware.motors.MotorGroup;
 import com.seattlesolvers.solverslib.hardware.servos.ServoEx;
 import com.seattlesolvers.solverslib.hardware.SimpleServo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Blocker extends SubsystemBase{
-    ServoEx servoB;
-    double naught;
+    SimpleServo servoB;
+    SimpleServo servoA;
+    public double naught;
+    public double angle;
     Telemetry telemetry;
     public Blocker(HardwareMap hwMap, Telemetry telemetry) {
-        servoB = new ServoEx(hwMap, "servoB", 0,180);
+        servoB = new SimpleServo(hwMap, "servoB", 0, 240);
+        servoA = new SimpleServo(hwMap, "servoA", 0, 240);
+        servoB.setInverted(true);
+        servoA.setInverted(false);
     }
+
+
 
     public void positionNaught() {
-        servoB.set(naught);
+        /*
+        servoB.rotateByAngle(15);
+        servoA.rotateByAngle(15);
+        */
+        servoB.setPosition(0.8);
+        servoA.turnToAngle(0.8);
     }
     public void positionUp() {
-        servoB.set(naught-70);
+        /*
+        servoB.rotateByAngle(-15);
+        servoA.rotateByAngle(-15);
+        */
+         servoB.setPosition(0);
+         servoA.setPosition(0);
     }
 
-    public double getNaught() {
-        naught = servoB.get();
-        return naught;
+    public double get_angle() {
+        angle = servoB.getAngle();
+        return angle;
     }
-
 
 
 }
